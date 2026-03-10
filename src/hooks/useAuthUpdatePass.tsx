@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import { useTranslation } from 'react-i18next';
 
 import { supabase } from '../lib/supabase';
+import { webAlert } from '../lib/utils/webAlert';
 
 /**
  * @TODO - remove
@@ -22,7 +23,7 @@ import { supabase } from '../lib/supabase';
  *  &expires_at=1740053401
  *  &expires_in=3600
  *  &refresh_token=wxyztoken
- *  &token_type=bearer
+ *  &token_type=Bearer
  *  &type=recovery
  */
 
@@ -79,7 +80,11 @@ export default function useAuthUpdatePass() {
       await supabase.auth.signOut();
 
       if (!error) {
-        Alert.alert(t('alert.passwordUpdated'));
+        if (Platform.OS === 'web') {
+          webAlert(t('alert.passwordUpdated'));
+        } else {
+          Alert.alert(t('alert.passwordUpdated'));
+        }
         setTimeout(() => {
           setLoading(false);
           return router.replace('/signin/page');

@@ -2,11 +2,19 @@ import { useState } from 'react';
 import { router } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { supabase } from '@/lib/supabase';
+import { webAlert } from '@/lib/utils/webAlert';
 import { ActionButton, NavigationButton } from '@/components/buttons/';
 import { MyAppEmailInput } from '@/components/inputs';
 
@@ -43,7 +51,11 @@ export default function ForgotPassword() {
     setPending(false);
 
     if (error) {
-      Alert.alert(error.message);
+      if (Platform.OS === 'web') {
+        webAlert(error.message);
+      } else {
+        Alert.alert(error.message);
+      }
       return;
     }
 

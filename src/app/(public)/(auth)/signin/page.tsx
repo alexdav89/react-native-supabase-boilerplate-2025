@@ -1,12 +1,20 @@
 import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 
 import AuthContext from '@/contexts/auth';
 import { ActionButton } from '@/components/buttons';
 import { MyAppEmailInput, MyAppPasswordInput } from '@/components/inputs';
 import { supabase } from '@/lib/supabase';
+import { webAlert } from '@/lib/utils/webAlert';
 
 import loginPageStyles from './styles';
 
@@ -25,7 +33,11 @@ export default function LoginPage() {
     });
 
     if (error) {
-      Alert.alert(error.message);
+      if (Platform.OS === 'web') {
+        webAlert(error.message);
+      } else {
+        Alert.alert(error.message);
+      }
       return;
     }
 
