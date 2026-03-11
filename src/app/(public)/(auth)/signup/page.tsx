@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { router } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { supabase } from '@/lib/supabase';
+import { webAlert } from '@/lib/utils/webAlert';
 import signUpStyles from './styles';
 import { ActionButton, NavigationButton } from '@/components/buttons/';
 import {
@@ -66,11 +74,21 @@ export default function SignUp() {
     setPending(false);
 
     if (error) {
-      Alert.alert(error.message);
+      if (Platform.OS === 'web') {
+        webAlert(error.message);
+      } else {
+        Alert.alert(error.message);
+      }
       return;
     }
 
-    if (!session) Alert.alert(t('alert.emailCheck'));
+    if (!session) {
+      if (Platform.OS === 'web') {
+        webAlert(t('alert.emailCheck'));
+      } else {
+        Alert.alert(t('alert.emailCheck'));
+      }
+    }
 
     router.replace('/(public)/(auth)/signin/page');
   }
@@ -79,6 +97,7 @@ export default function SignUp() {
     <SafeAreaView style={signUpStyles.safeArea}>
       <ScrollView
         // force the scrollView to occupy the entire screen
+        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{ flexGrow: 1 }}
         style={signUpStyles.scrollView}
       >

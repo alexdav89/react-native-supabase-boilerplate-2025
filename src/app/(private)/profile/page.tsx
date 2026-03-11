@@ -1,8 +1,9 @@
 import { Link, router } from 'expo-router';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
 
 import AuthContext from '@/contexts/auth';
 import { supabase } from '@/lib/supabase';
+import { webAlert } from '@/lib/utils/webAlert';
 import { ActionButton } from '@/components/buttons';
 import colors from '@/constants/theme/colors';
 
@@ -13,7 +14,11 @@ export default function Profile() {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      Alert.alert('Error logging out:', error.message);
+      if (Platform.OS === 'web') {
+        webAlert(`Error logging out: ${error.message}`);
+      } else {
+        Alert.alert('Error logging out:', error.message);
+      }
       return;
     }
 
