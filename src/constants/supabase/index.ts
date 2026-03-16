@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-export const supabaseUrl = 'https://ywponercrgofsjzlshzk.supabase.co';
-export const supabaseAnonKey = 'sb_publishable_kp73MvR_3xS_53V5pAmCAQ_0qiWk6Xh';
+export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+export const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
 
 // We add the third argument (the options object) below:
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
