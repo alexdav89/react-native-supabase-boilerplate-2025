@@ -1,5 +1,6 @@
 import { Link, router } from 'expo-router';
 import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import AuthContext from '@/contexts/auth';
 import { supabase } from '@/lib/supabase';
@@ -8,6 +9,7 @@ import { ActionButton } from '@/components/buttons';
 import colors from '@/constants/theme/colors';
 
 export default function Profile() {
+  const { t } = useTranslation();
   const { user, setAuth } = AuthContext.useAuth();
 
   async function handleSignout() {
@@ -38,7 +40,7 @@ export default function Profile() {
         <Text style={styles.linkText}>Login</Text>
       </Link>
 
-      <ActionButton onPress={handleSignout} text="Sair" />
+      <ActionButton onPress={handleSignout} text={t('buttons.signOut')} />
     </View>
   );
 }

@@ -3,10 +3,12 @@ import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import translationEn from './locales/en-US.json';
+import translationPt from './locales/pt-BR.json';
 
 // Configuração das traduções
 const resources = {
   'en-US': { translation: translationEn },
+  'pt-BR': { translation: translationPt },
 };
 
 export const initI18n = async () => {
