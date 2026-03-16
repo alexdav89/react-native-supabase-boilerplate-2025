@@ -5,7 +5,8 @@
   },
   "buttons": {
     "signIn": "Acessar",
-    "signUp": "Cadastrar"
+    "signUp": "Cadastrar",
+    "signOut": "Sair"
   },
   "links": {
     "forgotPassword": "Esqueci minha senha",
